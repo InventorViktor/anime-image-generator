@@ -7,10 +7,19 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+torch = {version = "^2.3.0+cu121", source = "pytorch-gpu-src"}
+torchvision = {version = "^0.18.0+cu121", source = "pytorch-gpu-src"}
+lightning = "^2.2.5"
 
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.7.1"
+
+
+[[tool.poetry.source]]
+name = "pytorch-gpu-src"
+url = "https://download.pytorch.org/whl/cu121"
+priority = "explicit"
 
 [build-system]
 requires = ["poetry-core"]
