@@ -11,7 +11,7 @@ class ImageDataModule(pl.LightningDataModule):
         self.image_folder = image_folder
         self.batch_size = batch_size
 
-    def setup(self, stage: str = None) -> None:
+    def setup(self, stage: str) -> None:
         transform = transforms.Compose(
             [
                 transforms.Resize(384),
