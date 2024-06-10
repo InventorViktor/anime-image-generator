@@ -14,6 +14,7 @@ trainer = pl.Trainer(
     max_epochs=5,
     accumulate_grad_batches=2,
     precision="16-mixed",
+    fast_dev_run=True,
 )
 
 trainer.fit(model, data_module)

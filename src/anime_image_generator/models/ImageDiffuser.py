@@ -13,7 +13,7 @@ class ImageDiffuser(pl.LightningModule):
     def __init__(self) -> None:
         super().__init__()
         self.model = UNet2DModel(
-            sample_size=384,
+            sample_size=192,
             in_channels=3,
             out_channels=3,
             layers_per_block=2,
