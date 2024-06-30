@@ -14,8 +14,9 @@ class ImageDataModule(pl.LightningDataModule):
     def setup(self, stage: str) -> None:
         transform = transforms.Compose(
             [
-                transforms.Resize(192),
-                transforms.CenterCrop((192, 192)),
+                transforms.Resize(128),
+                transforms.CenterCrop((128, 128)),
+                transforms.RandomHorizontalFlip(),
                 transforms.ToTensor(),
                 transforms.Normalize([0.5], [0.5]),
             ]
