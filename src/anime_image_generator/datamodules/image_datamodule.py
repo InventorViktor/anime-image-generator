@@ -6,7 +6,7 @@ from anime_image_generator.datasets.image_dataset import ImageDataset
 
 
 class ImageDataModule(pl.LightningDataModule):
-    def __init__(self, image_folder: str, batch_size: int = 32):
+    def __init__(self, image_folder: str, batch_size: int = 64):
         super().__init__()
         self.image_folder = image_folder
         self.batch_size = batch_size
@@ -14,8 +14,8 @@ class ImageDataModule(pl.LightningDataModule):
     def setup(self, stage: str) -> None:
         transform = transforms.Compose(
             [
-                transforms.Resize(128),
-                transforms.CenterCrop((128, 128)),
+                transforms.Resize(64),
+                transforms.CenterCrop((64, 64)),
                 transforms.RandomHorizontalFlip(),
                 transforms.ToTensor(),
                 transforms.Normalize([0.5], [0.5]),
@@ -27,4 +27,6 @@ class ImageDataModule(pl.LightningDataModule):
         )
 
     def train_dataloader(self) -> DataLoader:
-        return DataLoader(self.train_dataset, batch_size=self.batch_size, shuffle=True)
+        return DataLoader(
+            self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=15
+        )

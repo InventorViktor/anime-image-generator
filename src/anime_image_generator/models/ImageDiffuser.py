@@ -14,13 +14,12 @@ class ImageDiffuser(pl.LightningModule):
     def __init__(self) -> None:
         super().__init__()
         self.model = UNet2DModel(
-            sample_size=128,
+            sample_size=64,
             in_channels=3,
             out_channels=3,
             layers_per_block=2,
-            block_out_channels=(128, 128, 256, 256, 512, 512),
+            block_out_channels=(128, 128, 256, 512, 512),
             down_block_types=(
-                "DownBlock2D",
                 "DownBlock2D",
                 "DownBlock2D",
                 "DownBlock2D",
@@ -30,7 +29,6 @@ class ImageDiffuser(pl.LightningModule):
             up_block_types=(
                 "UpBlock2D",
                 "AttnUpBlock2D",
-                "UpBlock2D",
                 "UpBlock2D",
                 "UpBlock2D",
                 "UpBlock2D",
@@ -58,7 +56,7 @@ class ImageDiffuser(pl.LightningModule):
         optimizer = torch.optim.AdamW(self.model.parameters(), lr=1e-4)
 
         dataset_size = 100_000
-        batch_size = 32
+        batch_size = 64
         num_epochs = 30
         num_training_steps = (dataset_size // batch_size) * num_epochs
         num_warmup_steps = int(0.1 * num_training_steps)
