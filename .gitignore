@@ -1,3 +1,5 @@
 .idea
 lightning_logs
 __pycache__
+samples
+pipeline.py
