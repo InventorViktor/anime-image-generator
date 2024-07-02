@@ -51,7 +51,7 @@ class ImageDiffuser(pl.LightningModule):
         noise_pred = self.model(noisy_images, time_steps).sample
 
         loss = F.mse_loss(noise_pred, noise)
-        lr = self.lr_schedulers()[0].get_last_lr()[0]
+        lr = self.lr_schedulers().get_last_lr()[0]
 
         self.log("train_loss", loss)
         self.log("lr", lr)
