@@ -6,7 +6,7 @@ from anime_image_generator.datasets.image_dataset import ImageDataset
 
 
 class ImageDataModule(pl.LightningDataModule):
-    def __init__(self, image_folder: str, batch_size: int = 64):
+    def __init__(self, image_folder: str, batch_size: int = 32):
         super().__init__()
         self.image_folder = image_folder
         self.batch_size = batch_size
