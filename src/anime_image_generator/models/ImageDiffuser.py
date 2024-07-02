@@ -18,8 +18,10 @@ class ImageDiffuser(pl.LightningModule):
             in_channels=3,
             out_channels=3,
             layers_per_block=2,
-            block_out_channels=(128, 128, 256, 512, 512),
+            dropout=0.3,
+            block_out_channels=(128, 128, 256, 256, 512, 512),
             down_block_types=(
+                "DownBlock2D",
                 "DownBlock2D",
                 "DownBlock2D",
                 "DownBlock2D",
@@ -29,6 +31,7 @@ class ImageDiffuser(pl.LightningModule):
             up_block_types=(
                 "UpBlock2D",
                 "AttnUpBlock2D",
+                "UpBlock2D",
                 "UpBlock2D",
                 "UpBlock2D",
                 "UpBlock2D",
@@ -48,7 +51,10 @@ class ImageDiffuser(pl.LightningModule):
         noise_pred = self.model(noisy_images, time_steps).sample
 
         loss = F.mse_loss(noise_pred, noise)
+        lr = self.lr_schedulers()[0].get_last_lr()[0]
+
         self.log("train_loss", loss)
+        self.log("lr", lr)
 
         return loss
 
@@ -56,9 +62,9 @@ class ImageDiffuser(pl.LightningModule):
         optimizer = torch.optim.AdamW(self.model.parameters(), lr=1e-4)
 
         dataset_size = 100_000
-        batch_size = 64
         num_epochs = 30
-        num_training_steps = (dataset_size // batch_size) * num_epochs
+
+        num_training_steps = dataset_size * num_epochs
         num_warmup_steps = int(0.1 * num_training_steps)
 
         lr_scheduler = get_cosine_schedule_with_warmup(
