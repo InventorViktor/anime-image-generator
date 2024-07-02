@@ -65,7 +65,7 @@ class ImageDiffuser(pl.LightningModule):
         num_epochs = 30
 
         num_training_steps = dataset_size * num_epochs
-        num_warmup_steps = int(0.1 * num_training_steps)
+        num_warmup_steps = int(0.01 * num_training_steps)
 
         lr_scheduler = get_cosine_schedule_with_warmup(
             optimizer,
