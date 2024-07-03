@@ -19,9 +19,8 @@ class ImageDiffuser(pl.LightningModule):
             out_channels=3,
             layers_per_block=2,
             dropout=0.3,
-            block_out_channels=(128, 128, 256, 256, 512, 512),
+            block_out_channels=(128, 128, 256, 512, 512),
             down_block_types=(
-                "DownBlock2D",
                 "DownBlock2D",
                 "DownBlock2D",
                 "DownBlock2D",
@@ -31,7 +30,6 @@ class ImageDiffuser(pl.LightningModule):
             up_block_types=(
                 "UpBlock2D",
                 "AttnUpBlock2D",
-                "UpBlock2D",
                 "UpBlock2D",
                 "UpBlock2D",
                 "UpBlock2D",
