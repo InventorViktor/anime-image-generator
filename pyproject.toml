@@ -12,6 +12,7 @@ torchvision = {version = "^0.18.0+cu121", source = "pytorch-gpu-src"}
 lightning = "^2.2.5"
 diffusers = {extras = ["torch"], version = "^0.28.2"}
 numpy = "^1.26.0"
+accelerate = "^0.31.0"
 
 
 [tool.poetry.group.dev.dependencies]

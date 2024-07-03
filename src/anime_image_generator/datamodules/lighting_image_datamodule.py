@@ -1,16 +1,17 @@
+import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
 from anime_image_generator.datasets.image_dataset import ImageDataset
 
 
-class ImageDataModule:
-    def __init__(self, path: str, batch_size: int = 32) -> None:
+class ImageDataModule(pl.LightningDataModule):
+    def __init__(self, image_folder: str, batch_size: int = 32):
         super().__init__()
-        self.path = path
+        self.image_folder = image_folder
         self.batch_size = batch_size
 
-    def init_loader(self) -> DataLoader:
+    def setup(self, stage: str) -> None:
         transform = transforms.Compose(
             [
                 transforms.Resize(64),
@@ -21,8 +22,11 @@ class ImageDataModule:
             ]
         )
 
-        image_dataset = ImageDataset(self.path, transform=transform)
+        self.train_dataset = ImageDataset(
+            image_folder=self.image_folder, transform=transform
+        )
 
+    def train_dataloader(self) -> DataLoader:
         return DataLoader(
-            image_dataset, batch_size=self.batch_size, shuffle=True, num_workers=15
+            self.train_dataset, batch_size=self.batch_size, shuffle=True, num_workers=15
         )
