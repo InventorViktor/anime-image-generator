@@ -4,12 +4,14 @@
 Generate unconditional anime portrait images.
 
 # Sample usage
-install `diffusers`
 
 ```python
+import torch
 from diffusers import DiffusionPipeline
 
-pipeline = DiffusionPipeline.from_pretrained("model").to("cuda")
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+pipeline = DiffusionPipeline.from_pretrained("FatRat7/anime-image-generator", use_safetensors=True).to(device)
 
 image = pipeline(num_inference_steps=1000).images[0]
 image.save("path")
